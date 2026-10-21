@@ -15,7 +15,7 @@ FetchContent_MakeAvailable(SFML)
 
 add_library(Juki2D STATIC
     src/Collision.cpp
-)
+ "src/Application.cpp")
 
 target_include_directories(Juki2D PUBLIC
     include
@@ -28,7 +28,7 @@ add_executable(Sandbox
     src/main.cpp
     src/Game.cpp
     src/Player.cpp
-)
+ "src/Application.cpp")
 
 target_link_libraries(Sandbox PRIVATE Juki2D)
 

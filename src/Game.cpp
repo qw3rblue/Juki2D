@@ -41,7 +41,7 @@ void Game::processEvents() {
 	while (auto event = window.pollEvent()) {
 		if (event->is<sf::Event::Closed>()) {
 			window.close();
-		}
+		} 
 	}
 }
 
