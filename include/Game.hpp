@@ -1,21 +1,20 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <Juki2D/Application.hpp>
+#include <vector>
 #include "Player.hpp"
 
-class Game {
+class Game : public Juki2D::Application{
+protected:
+	void onUpdate(float dt) override;
+	void onRender(sf::RenderWindow& window) override;
 private:
-	sf::RenderWindow window;
 	sf::View camera;
 	std::vector<sf::RectangleShape> platforms;
 
 	Player player;
 
 	void updateCamera();
-	void processEvents();
-	void update(float dt);
-	void render();
-
 public:
 	Game();
-	void run();
 };

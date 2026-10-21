@@ -2,11 +2,9 @@
 #include "Collision.hpp"
 
 Game::Game()
-	: window(sf::VideoMode({ 1280, 720 }), "Platformer Game :D"),
+	: Juki2D::Application({1280, 720}, "Juki2D Sandbox"),
 	camera(sf::FloatRect({0.f, 0.f}, {1280.f, 720.f}))
 {
-	window.setFramerateLimit(60);
-
 	sf::RectangleShape floor;
 	sf::RectangleShape platform1;
 	sf::RectangleShape platform2;
@@ -37,15 +35,7 @@ void Game::updateCamera() {
 	camera.setCenter(playerCenter);
 }
 
-void Game::processEvents() {
-	while (auto event = window.pollEvent()) {
-		if (event->is<sf::Event::Closed>()) {
-			window.close();
-		} 
-	}
-}
-
-void Game::update(float dt) {
+void Game::onUpdate(float dt) {
 	player.handleInput();
 	player.update(dt);
 
@@ -65,40 +55,12 @@ void Game::update(float dt) {
 	updateCamera();
 }
 
-void Game::render() {
-	window.clear();
+void Game::onRender(sf::RenderWindow& window) {
 	window.setView(camera);
 
 	player.render(window);
 
 	for (int i = 0; i <= platforms.size() - 1; i++) {
 		window.draw(platforms[i]);
-	}
-
-	window.display();
-}
-
-void Game::run() {
-	sf::Clock clock;
-
-	constexpr float fixedDeltaTime = 1.f / 60.f;
-	float accumulator = 0.f;
-
-	while (window.isOpen()) {
-		float frameTime = clock.restart().asSeconds();
-
-		// lag prevention they said
-		frameTime = std::min(frameTime, 0.25f);
-
-		accumulator += frameTime;
-
-		processEvents();
-
-		while (accumulator >= fixedDeltaTime) {
-			update(fixedDeltaTime);
-			accumulator -= fixedDeltaTime;
-		}
-
-		render();
 	}
 }
