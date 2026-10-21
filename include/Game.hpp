@@ -2,7 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <Juki2D/Application.hpp>
 #include <vector>
-#include "Player.hpp"
+#include <Player.hpp>
 
 class Game : public Juki2D::Application{
 protected:

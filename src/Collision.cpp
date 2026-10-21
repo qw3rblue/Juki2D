@@ -1,4 +1,4 @@
-#include "Collision.hpp"
+#include <Collision.hpp>
 #include <cmath>
 
 bool Collision::isColliding(
