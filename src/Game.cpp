@@ -39,12 +39,11 @@ void Game::onUpdate(float dt) {
 	player.handleInput();
 	player.update(dt);
 
-	sf::FloatRect playerBounds = player.getBounds();
-
 	// generalized collision checking
 
-	for (int i = 0; i <= platforms.size() - 1; i++) {
-		sf::FloatRect currentBounds = platforms[i].getGlobalBounds();
+	for (const auto& platform : platforms) {
+		sf::FloatRect playerBounds = player.getBounds();
+		sf::FloatRect currentBounds = platform.getGlobalBounds();
 
 		if (Collision::isColliding(playerBounds, currentBounds)) {
 			char side = Collision::getObjectCollisionSide(playerBounds, currentBounds)[0];
@@ -60,7 +59,7 @@ void Game::onRender(sf::RenderWindow& window) {
 
 	player.render(window);
 
-	for (int i = 0; i <= platforms.size() - 1; i++) {
-		window.draw(platforms[i]);
+	for (const auto& platform : platforms) {
+		window.draw(platform);
 	}
 }
