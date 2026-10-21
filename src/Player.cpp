@@ -27,34 +27,50 @@ void Player::handleInput() {
     }
 }
 
-void Player::landOn(float platformTop) {
-    body.setPosition({
-        body.getPosition().x,
-        platformTop - body.getSize().y
-    });
+void Player::resolveCollision(sf::FloatRect object, char side) {
+    switch (side) {
 
-    velocity.y = 0.f;
-    grounded = true;
+    case 't':
+        body.setPosition({
+            body.getPosition().x,
+            object.position.y - body.getSize().y
+            });
+
+        velocity.y = 0.f;
+        grounded = true;
+        break;
+    case 'b':
+        body.setPosition({
+            body.getPosition().x,
+            object.position.y + object.size.y
+            });
+
+        velocity.y = 0.f;
+        grounded = false;
+        break;
+    case 'l':
+        body.setPosition({
+            object.position.x - body.getSize().x,
+            body.getPosition().y
+            });
+
+        velocity.x = 0.f;
+        break;
+    case 'r':
+        body.setPosition({
+            object.position.x + object.size.x,
+            body.getPosition().y
+            });
+
+        velocity.x = 0.f;
+        break;
+    }
 }
 
 void Player::update(float dt) {
     grounded = false;
     velocity.y += gravity * dt;
     body.move(velocity * dt);
-
-    float floorY = 600.f;
-
-    if (body.getPosition().y + body.getSize().y >= floorY
-        && velocity.y >= 0.f) {
-
-        body.setPosition({
-            body.getPosition().x,
-            floorY - body.getSize().y
-            });
-
-        velocity.y = 0.f;
-        grounded = true;
-    }
 }
 
 sf::FloatRect Player::getBounds() const {

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.28)
-project(CMakeSFMLProject LANGUAGES CXX)
+project(Juki2D LANGUAGES CXX)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
@@ -13,16 +13,23 @@ FetchContent_Declare(SFML
     SYSTEM)
 FetchContent_MakeAvailable(SFML)
 
-add_executable(main 
-    src/main.cpp
-    src/Game.cpp
- "src/Player.cpp" "src/Collision.cpp")
+add_library(Juki2D STATIC
+    src/Collision.cpp
+)
 
-target_include_directories(main PRIVATE
+target_include_directories(Juki2D PUBLIC
     include
 )
 
-target_compile_features(main PRIVATE cxx_std_17)
-target_link_libraries(main PRIVATE SFML::Graphics)
+target_compile_features(Juki2D PUBLIC cxx_std_20)
+target_link_libraries(Juki2D PUBLIC SFML::Graphics)
 
-set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT main)
+add_executable(Sandbox
+    src/main.cpp
+    src/Game.cpp
+    src/Player.cpp
+)
+
+target_link_libraries(Sandbox PRIVATE Juki2D)
+
+set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Sandbox)

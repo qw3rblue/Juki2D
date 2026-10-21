@@ -7,4 +7,9 @@ public:
 		const sf::FloatRect& a,
 		const sf::FloatRect& b
 	);
+
+	static std::string getObjectCollisionSide(
+		const sf::FloatRect& a,
+		const sf::FloatRect& b
+	);
 };

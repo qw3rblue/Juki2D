@@ -5,10 +5,12 @@
 class Game {
 private:
 	sf::RenderWindow window;
-	sf::RectangleShape platform;
+	sf::View camera;
+	std::vector<sf::RectangleShape> platforms;
 
 	Player player;
 
+	void updateCamera();
 	void processEvents();
 	void update(float dt);
 	void render();
