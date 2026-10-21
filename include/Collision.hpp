@@ -3,12 +3,16 @@
 
 class Collision {
 public:
+	enum class Side {
+		Top, Bottom, Left, Right
+	};
+
 	static bool isColliding(
 		const sf::FloatRect& a,
 		const sf::FloatRect& b
 	);
 
-	static std::string getObjectCollisionSide(
+	static Side getObjectCollisionSide(
 		const sf::FloatRect& a,
 		const sf::FloatRect& b
 	);

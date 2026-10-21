@@ -1,4 +1,5 @@
 #include "Collision.hpp"
+#include <cmath>
 
 bool Collision::isColliding(
 	const sf::FloatRect& a,
@@ -7,7 +8,7 @@ bool Collision::isColliding(
 	return a.findIntersection(b).has_value();
 }
 
-std::string Collision::getObjectCollisionSide(
+Collision::Side Collision::getObjectCollisionSide(
 	const sf::FloatRect& a,
 	const sf::FloatRect& b
 ) {
@@ -27,18 +28,18 @@ std::string Collision::getObjectCollisionSide(
 
 	if (xOverlap < yOverlap) {
 		if (distX > 0) {
-			return "right";
+			return Side::Right;
 		}
 		else {
-			return "left";
+			return Side::Left;
 		}
 	}
 	else {
 		if (distY > 0) {
-			return "bottom";
+			return Side::Bottom;
 		}
 		else {
-			return "top";
+			return Side::Top;
 		}
 	}
 }
