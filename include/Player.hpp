@@ -19,7 +19,7 @@ public:
 	sf::FloatRect getBounds() const;
 	sf::Vector2f getVelocity() const;
 
-	void resolveCollision(sf::FloatRect object, char side);
+	void resolveCollision(sf::FloatRect object, Collision::Side side);
 	void handleInput();
 	void update(float dt);
 	void render(sf::RenderWindow& window);
