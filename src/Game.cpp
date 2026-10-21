@@ -46,7 +46,7 @@ void Game::onUpdate(float dt) {
 		sf::FloatRect currentBounds = platform.getGlobalBounds();
 
 		if (Collision::isColliding(playerBounds, currentBounds)) {
-			char side = Collision::getObjectCollisionSide(playerBounds, currentBounds)[0];
+			Collision::Side side = Collision::getObjectCollisionSide(playerBounds, currentBounds);
 			player.resolveCollision(currentBounds, side);
 		}
 	}

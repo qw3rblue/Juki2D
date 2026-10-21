@@ -27,10 +27,10 @@ void Player::handleInput() {
     }
 }
 
-void Player::resolveCollision(sf::FloatRect object, char side) {
+void Player::resolveCollision(sf::FloatRect object, Collision::Side side) {
     switch (side) {
 
-    case 't':
+    case Collision::Side::Top:
         body.setPosition({
             body.getPosition().x,
             object.position.y - body.getSize().y
@@ -39,7 +39,7 @@ void Player::resolveCollision(sf::FloatRect object, char side) {
         velocity.y = 0.f;
         grounded = true;
         break;
-    case 'b':
+    case Collision::Side::Bottom:
         body.setPosition({
             body.getPosition().x,
             object.position.y + object.size.y
@@ -48,7 +48,7 @@ void Player::resolveCollision(sf::FloatRect object, char side) {
         velocity.y = 0.f;
         grounded = false;
         break;
-    case 'l':
+    case Collision::Side::Left:
         body.setPosition({
             object.position.x - body.getSize().x,
             body.getPosition().y
@@ -56,7 +56,7 @@ void Player::resolveCollision(sf::FloatRect object, char side) {
 
         velocity.x = 0.f;
         break;
-    case 'r':
+    case Collision::Side::Right:
         body.setPosition({
             object.position.x + object.size.x,
             body.getPosition().y
