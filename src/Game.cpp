@@ -2,9 +2,10 @@
 #include <Collision.hpp>
 
 Game::Game()
-	: Juki2D::Application({1280, 720}, "Juki2D Sandbox"),
-	camera(sf::FloatRect({0.f, 0.f}, {1280.f, 720.f})),
-	player(textures)
+	: Juki2D::Application({ 1280, 720 }, "Juki2D Sandbox"),
+	camera(sf::FloatRect({ 0.f, 0.f }, { 1280.f, 720.f })),
+	player(textures),
+	background(textures.get("assets/test_bg.png"))
 {
 	sf::RectangleShape floor;
 	sf::RectangleShape platform1;
@@ -29,6 +30,15 @@ Game::Game()
 	for (const auto& platform : platforms) {
 		obstacleBounds.push_back(platform.getGlobalBounds());
 	}
+
+	const auto size = background.getTexture().getSize();
+
+	background.setScale({
+		1280.f / static_cast<float>(size.x),
+		720.f / static_cast<float>(size.y)
+		});
+
+	background.setPosition({ 0.f, 0.f });
 }
 
 void Game::updateCamera() {
@@ -50,6 +60,7 @@ void Game::onUpdate(float dt) {
 
 void Game::onRender(sf::RenderWindow& window) {
 	window.setView(camera);
+	window.draw(background);
 
 	player.render(window);
 

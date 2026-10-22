@@ -16,6 +16,7 @@ private:
 	std::vector<sf::FloatRect> obstacleBounds;
 
 	Juki2D::TextureStore textures;
+	sf::Sprite background;
 	Player player;
 
 	void updateCamera();
