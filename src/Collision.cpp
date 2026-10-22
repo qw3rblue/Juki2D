@@ -92,7 +92,7 @@ std::optional<Collision::SweepHit> Collision::sweepAABB(
 			}
 		}
 
-		return SweepHit{ entryTime, normal };
+		return SweepHit{ entryTime, normal }; 
 	}
 }
 

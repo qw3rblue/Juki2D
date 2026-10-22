@@ -39,15 +39,58 @@ void Game::onUpdate(float dt) {
 	player.handleInput();
 	player.update(dt);
 
-	// generalized collision checking
-
 	for (const auto& platform : platforms) {
-		sf::FloatRect playerBounds = player.getBounds();
-		sf::FloatRect currentBounds = platform.getGlobalBounds();
+		const sf::FloatRect playerBounds = player.getBounds();
+		const sf::FloatRect platformBounds = platform.getGlobalBounds();
 
-		if (Collision::isColliding(playerBounds, currentBounds)) {
-			Collision::Side side = Collision::getObjectCollisionSide(playerBounds, currentBounds);
-			player.resolveCollision(currentBounds, side);
+		if (Collision::isColliding(playerBounds, platformBounds)) {
+			const Collision::Side side =
+				Collision::getObjectCollisionSide(
+					playerBounds, platformBounds
+				);
+
+			player.resolveCollision(platformBounds, side);
+		}
+	}
+
+	sf::Vector2f remaining = player.getVelocity() * dt;
+
+	for (int iteration = 0; iteration < 4; ++iteration) {
+		if (remaining.x == 0.f && remaining.y == 0.f) {
+			break;
+		}
+
+		const sf::FloatRect bounds = player.getBounds();
+		std::optional<Collision::SweepHit> earliestHit;
+
+		for (const auto& platform : platforms) {
+			const auto hit = Collision::sweepAABB(
+				bounds,
+				remaining,
+				platform.getGlobalBounds()
+			);
+
+			if (hit && (!earliestHit || hit->time < earliestHit->time)) {
+				earliestHit = hit;
+			}
+		}
+
+		if (!earliestHit) {
+			player.move(remaining);
+			break;
+		}
+
+		player.move(remaining * earliestHit->time);
+		player.respondToCollision(earliestHit->normal);
+
+		remaining *= 1.f - earliestHit->time;
+
+		if (earliestHit->normal.x != 0.f) {
+			remaining.x = 0.f;
+		}
+
+		if (earliestHit->normal.y != 0.f) {
+			remaining.y = 0.f;
 		}
 	}
 

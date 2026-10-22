@@ -16,6 +16,9 @@ private:
 public:
 	Player();
 
+	void move(sf::Vector2f displacement);
+	void respondToCollision(sf::Vector2f normal);
+
 	sf::FloatRect getBounds() const;
 	sf::Vector2f getVelocity() const;
 

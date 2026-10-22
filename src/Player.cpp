@@ -70,7 +70,24 @@ void Player::resolveCollision(sf::FloatRect object, Collision::Side side) {
 void Player::update(float dt) {
     grounded = false;
     velocity.y += gravity * dt;
-    body.move(velocity * dt);
+}
+
+void Player::move(sf::Vector2f displacement) {
+    body.move(displacement);
+}
+
+void Player::respondToCollision(sf::Vector2f normal) {
+    if (velocity.x * normal.x < 0.f) {
+        velocity.x = 0.f;
+    }
+
+    if (velocity.y * normal.y < 0.f) {
+        velocity.y = 0.f;
+    }
+
+    if (normal.y < 0.f) {
+        grounded = true;
+    }
 }
 
 sf::FloatRect Player::getBounds() const {
