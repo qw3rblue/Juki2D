@@ -1,13 +1,13 @@
 #pragma once
-#include <set>
+#include <bitset>
 #include <SFML/Window/Keyboard.hpp>
 
 namespace Juki2D {
 	class Input {
 	private:
-		std::set<sf::Keyboard::Key> held;
-		std::set<sf::Keyboard::Key> pressed;
-		std::set<sf::Keyboard::Key> released;
+		std::bitset<sf::Keyboard::KeyCount> held;
+		std::bitset<sf::Keyboard::KeyCount> pressed;
+		std::bitset<sf::Keyboard::KeyCount> released;
 
 	public:
 		bool isHeld(sf::Keyboard::Key key) const;
