@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <Collision.hpp>
 #include <Juki2D/Body2D.hpp>
+#include <Juki2D/Input.hpp>
 #include <vector>
 
 class Player {
@@ -15,14 +16,9 @@ private:
 public:
 	Player();
 
-	void move(sf::Vector2f displacement);
-	void respondToCollision(sf::Vector2f normal);
-
 	sf::FloatRect getBounds() const;
-	sf::Vector2f getVelocity() const;
 
-	void resolveCollision(sf::FloatRect object, Collision::Side side);
-	void handleInput();
+	void handleInput(const Juki2D::Input&);
 	void update(float dt, const std::vector<sf::FloatRect>& obstacles);
 	void render(sf::RenderWindow& window);
 };

@@ -9,6 +9,10 @@ Juki2D::Application::Application(sf::Vector2u size, std::string title)
 	window.setFramerateLimit(60);
 }
 
+const Juki2D::Input& Juki2D::Application::getInput() const {
+	return input;
+}
+
 void Juki2D::Application::run() {
 	sf::Clock clock;
 
@@ -25,6 +29,18 @@ void Juki2D::Application::run() {
 			if (event->is<sf::Event::Closed>()) {
 				window.close();
 			}
+
+			if (const auto* keyEvent = event->getIf<sf::Event::KeyPressed>()) {
+				input.press(keyEvent->code);
+			}
+
+			if (const auto* keyEvent = event->getIf<sf::Event::KeyReleased>()) {
+				input.release(keyEvent->code);
+			}
+
+			if (event->is<sf::Event::FocusLost>()) {
+				input.reset();
+			}
 		}
 
 		if (!window.isOpen()) {
@@ -34,6 +50,7 @@ void Juki2D::Application::run() {
 
 		while (accumulator >= fixedDeltaTime) {
 			onUpdate(fixedDeltaTime);
+			input.finishUpdate();
 			accumulator -= fixedDeltaTime;
 		}
 

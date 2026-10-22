@@ -42,7 +42,7 @@ void Game::updateCamera() {
 }
 
 void Game::onUpdate(float dt) {
-	player.handleInput();
+	player.handleInput(getInput());
 	player.update(dt, obstacleBounds);
 	updateCamera();
 }

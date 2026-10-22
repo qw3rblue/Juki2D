@@ -1,5 +1,6 @@
 #include "Player.hpp"
 #include <SFML/Window/Keyboard.hpp>
+#include <Juki2D/Input.hpp>
 #include <vector>
 
 Player::Player()
@@ -10,19 +11,19 @@ Player::Player()
     visual.setSize({ 40, 60 });
 }
 
-void Player::handleInput() {
+void Player::handleInput(const Juki2D::Input& input) {
     sf::Vector2f velocity = body.getVelocity();
     velocity.x = 0.f;
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) {
+    if (input.isHeld(sf::Keyboard::Key::A)) {
         velocity.x = -moveSpeed;
     }
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) {
+    if (input.isHeld(sf::Keyboard::Key::D)) {
         velocity.x = moveSpeed;
     }
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space)
+    if (input.wasPressed(sf::Keyboard::Key::Space)
         && body.isGrounded()) {
         velocity.y = -jumpForce;
     }
