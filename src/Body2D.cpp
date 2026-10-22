@@ -1,5 +1,5 @@
 #include <Juki2D/Body2D.hpp>
-#include <Collision.hpp>
+#include <Juki2D/Collision.hpp>
 
 Juki2D::Body2D::Body2D(sf::Vector2f position,sf::Vector2f size)
 	: bounds(position, size) 

@@ -26,13 +26,17 @@ target_include_directories(Juki2D PUBLIC
     include
 )
 
+target_include_directories(Sandbox PUBLIC
+    sandbox/include
+)
+
 target_compile_features(Juki2D PUBLIC cxx_std_20)
 target_link_libraries(Juki2D PUBLIC SFML::Graphics)
 
 add_executable(Sandbox
-    src/main.cpp
-    src/Game.cpp
-    src/Player.cpp
+    "sandbox/src/main.cpp"
+    "sandbox/src/Game.cpp"
+    "sandbox/src/Player.cpp"
 )
 
 add_custom_command(TARGET Sandbox POST_BUILD

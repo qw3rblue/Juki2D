@@ -1,5 +1,5 @@
-#include <Game.hpp>
-#include <Collision.hpp>
+#include "Game.cpp"
+#include <Juki2D/Collision.hpp>
 
 Game::Game()
 	: Juki2D::Application({ 1280, 720 }, "Juki2D Sandbox"),
