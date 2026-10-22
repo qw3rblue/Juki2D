@@ -22,6 +22,12 @@ Game::Game()
 		platforms[i].setSize({ 220.f, 18.f });
 		platforms[i].setPosition({ 150.f + (i - 1.f) * 310.f, 520.f - (i - 1.f) * 100.f });
 	}
+
+	obstacleBounds.reserve(platforms.size());
+
+	for (const auto& platform : platforms) {
+		obstacleBounds.push_back(platform.getGlobalBounds());
+	}
 }
 
 void Game::updateCamera() {
@@ -53,17 +59,10 @@ void Game::onUpdate(float dt) {
 		}
 	}
 
-	std::vector<sf::FloatRect> obstacles;
-	obstacles.reserve(platforms.size());
-
-	for (const auto& platform : platforms) {
-		obstacles.push_back(platform.getGlobalBounds());
-	}
-
 	const auto movement = Collision::moveSlide(
 		player.getBounds(),
 		player.getVelocity() * dt,
-		obstacles
+		obstacleBounds
 	);
 
 	player.move(movement.displacement);

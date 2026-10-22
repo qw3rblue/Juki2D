@@ -11,6 +11,7 @@ protected:
 private:
 	sf::View camera;
 	std::vector<sf::RectangleShape> platforms;
+	std::vector<sf::FloatRect> obstacleBounds;
 
 	Player player;
 
