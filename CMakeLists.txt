@@ -16,7 +16,7 @@ FetchContent_MakeAvailable(SFML)
 add_library(Juki2D STATIC
     "src/Collision.cpp"
     "src/Application.cpp"
- "src/Body2D.cpp" "src/Input.cpp")
+ "src/Body2D.cpp" "src/Input.cpp" "src/TextureStore.cpp")
 
 target_include_directories(Juki2D PUBLIC
     include
@@ -29,7 +29,14 @@ add_executable(Sandbox
     src/main.cpp
     src/Game.cpp
     src/Player.cpp
- "src/Body2D.cpp" "src/Input.cpp")
+ "src/Body2D.cpp" "src/Input.cpp" "src/TextureStore.cpp")
+
+ add_custom_command(TARGET Sandbox POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${CMAKE_CURRENT_SOURCE_DIR}/assets"
+        "$<TARGET_FILE_DIR:Sandbox>/assets"
+    VERBATIM
+)
 
 target_link_libraries(Sandbox PRIVATE Juki2D)
 

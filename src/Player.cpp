@@ -1,14 +1,20 @@
 #include "Player.hpp"
 #include <SFML/Window/Keyboard.hpp>
 #include <Juki2D/Input.hpp>
+#include <SFML/Graphics/Texture.hpp>
 #include <vector>
 
-Player::Player()
-    : body({ 100, 100 }, { 40, 60 })
+Player::Player(Juki2D::TextureStore& textures)
+    : body({ 100, 100 }, { 40, 60 }),
+    visual(textures.get("assets/azi.png"))
 {
-    visual.setFillColor(sf::Color::Blue);
-    visual.setOutlineColor(sf::Color::White);
-    visual.setSize({ 40, 60 });
+    const sf::Vector2u textureSize = visual.getTexture().getSize();
+    const sf::Vector2f bodySize = body.getBounds().size;
+
+    visual.setScale({
+        bodySize.x / static_cast<float>(textureSize.x),
+        bodySize.y / static_cast<float>(textureSize.y)
+        });
 }
 
 void Player::handleInput(const Juki2D::Input& input) {

@@ -1,6 +1,8 @@
 #pragma once
+
 #include <SFML/Graphics.hpp>
 #include <Juki2D/Application.hpp>
+#include <Juki2D/TextureStore.hpp>
 #include <vector>
 #include <Player.hpp>
 
@@ -13,6 +15,7 @@ private:
 	std::vector<sf::RectangleShape> platforms;
 	std::vector<sf::FloatRect> obstacleBounds;
 
+	Juki2D::TextureStore textures;
 	Player player;
 
 	void updateCamera();

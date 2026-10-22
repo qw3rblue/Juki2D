@@ -3,7 +3,8 @@
 
 Game::Game()
 	: Juki2D::Application({1280, 720}, "Juki2D Sandbox"),
-	camera(sf::FloatRect({0.f, 0.f}, {1280.f, 720.f}))
+	camera(sf::FloatRect({0.f, 0.f}, {1280.f, 720.f})),
+	player(textures)
 {
 	sf::RectangleShape floor;
 	sf::RectangleShape platform1;
