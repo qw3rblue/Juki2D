@@ -53,45 +53,23 @@ void Game::onUpdate(float dt) {
 		}
 	}
 
-	sf::Vector2f remaining = player.getVelocity() * dt;
+	std::vector<sf::FloatRect> obstacles;
+	obstacles.reserve(platforms.size());
 
-	for (int iteration = 0; iteration < 4; ++iteration) {
-		if (remaining.x == 0.f && remaining.y == 0.f) {
-			break;
-		}
+	for (const auto& platform : platforms) {
+		obstacles.push_back(platform.getGlobalBounds());
+	}
 
-		const sf::FloatRect bounds = player.getBounds();
-		std::optional<Collision::SweepHit> earliestHit;
+	const auto movement = Collision::moveSlide(
+		player.getBounds(),
+		player.getVelocity() * dt,
+		obstacles
+	);
 
-		for (const auto& platform : platforms) {
-			const auto hit = Collision::sweepAABB(
-				bounds,
-				remaining,
-				platform.getGlobalBounds()
-			);
+	player.move(movement.displacement);
 
-			if (hit && (!earliestHit || hit->time < earliestHit->time)) {
-				earliestHit = hit;
-			}
-		}
-
-		if (!earliestHit) {
-			player.move(remaining);
-			break;
-		}
-
-		player.move(remaining * earliestHit->time);
-		player.respondToCollision(earliestHit->normal);
-
-		remaining *= 1.f - earliestHit->time;
-
-		if (earliestHit->normal.x != 0.f) {
-			remaining.x = 0.f;
-		}
-
-		if (earliestHit->normal.y != 0.f) {
-			remaining.y = 0.f;
-		}
+	for (const auto& normal : movement.normals) {
+		player.respondToCollision(normal);
 	}
 
 	updateCamera();

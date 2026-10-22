@@ -96,6 +96,54 @@ std::optional<Collision::SweepHit> Collision::sweepAABB(
 	}
 }
 
+Collision::MoveResult Collision::moveSlide(
+	sf::FloatRect bounds,
+	sf::Vector2f displacement,
+	const std::vector<sf::FloatRect>& obstacles
+) {
+	MoveResult result;
+	sf::Vector2f remaining = displacement;
+
+	for (int iter = 0; iter < 4; ++iter) {
+		if (remaining.x == 0.f && remaining.y == 0.f) {
+			break;
+		}
+
+		std::optional<SweepHit> earliestHit;
+
+		for (const auto& obstacle : obstacles) {
+			const auto hit = sweepAABB(bounds, remaining, obstacle);
+
+			if (hit && (!earliestHit || hit->time < earliestHit->time)) {
+				earliestHit = hit;
+			}
+		}
+
+		if (!earliestHit) {
+			result.displacement += remaining;
+			break;
+		}
+
+		const sf::Vector2f movement = remaining * earliestHit->time;
+
+		bounds.position += movement;
+		result.displacement += movement;
+		result.normals.push_back(earliestHit->normal);
+
+		remaining = remaining * (1.f - earliestHit->time);
+
+		if (earliestHit->normal.x != 0.f) {
+			remaining.x = 0.f;
+		}
+
+		if (earliestHit->normal.y != 0.f) {
+			remaining.y = 0.f;
+		}
+	}
+
+	return result;
+}
+
 Collision::Side Collision::getObjectCollisionSide(
 	const sf::FloatRect& a,
 	const sf::FloatRect& b
