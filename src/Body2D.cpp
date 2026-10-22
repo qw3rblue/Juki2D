@@ -4,7 +4,7 @@
 Juki2D::Body2D::Body2D(sf::Vector2f position,sf::Vector2f size)
 	: bounds(position, size) 
 {
-
+	
 }
 
 sf::FloatRect Juki2D::Body2D::getBounds() const {

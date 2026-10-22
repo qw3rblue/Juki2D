@@ -1,17 +1,16 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <Collision.hpp>
+#include <Juki2D/Body2D.hpp>
+#include <vector>
 
 class Player {
 private:
-	sf::RectangleShape body;
-	sf::Vector2f velocity;
+	sf::RectangleShape visual;
+	Juki2D::Body2D body;
 
 	float moveSpeed = 250.f;
 	float jumpForce = 600.f;
-	float gravity = 1200.f;
-
-	bool grounded = false;
 
 public:
 	Player();
@@ -24,6 +23,6 @@ public:
 
 	void resolveCollision(sf::FloatRect object, Collision::Side side);
 	void handleInput();
-	void update(float dt);
+	void update(float dt, const std::vector<sf::FloatRect>& obstacles);
 	void render(sf::RenderWindow& window);
 };

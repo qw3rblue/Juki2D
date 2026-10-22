@@ -43,34 +43,7 @@ void Game::updateCamera() {
 
 void Game::onUpdate(float dt) {
 	player.handleInput();
-	player.update(dt);
-
-	for (const auto& platform : platforms) {
-		const sf::FloatRect playerBounds = player.getBounds();
-		const sf::FloatRect platformBounds = platform.getGlobalBounds();
-
-		if (Collision::isColliding(playerBounds, platformBounds)) {
-			const Collision::Side side =
-				Collision::getObjectCollisionSide(
-					playerBounds, platformBounds
-				);
-
-			player.resolveCollision(platformBounds, side);
-		}
-	}
-
-	const auto movement = Collision::moveSlide(
-		player.getBounds(),
-		player.getVelocity() * dt,
-		obstacleBounds
-	);
-
-	player.move(movement.displacement);
-
-	for (const auto& normal : movement.normals) {
-		player.respondToCollision(normal);
-	}
-
+	player.update(dt, obstacleBounds);
 	updateCamera();
 }
 
