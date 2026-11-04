@@ -1,0 +1,8 @@
+/build/
+/out/
+/.cache/
+/.idea/
+/.vs/
+/.vscode/
+CMakeUserPresets.json
+/README.md
